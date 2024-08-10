@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .form import SignUpForm
 
+#adding comments
+
 def home(request):
     #check to see iif loging
     if request.method == "POST":
