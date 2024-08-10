@@ -6,7 +6,7 @@
 
 <h1>Register</h1>
 <br/>
-<form method="POST" action={% url "home" %}>
+<form method="POST" action={% url 'home' %}>
     {% csrf_token %}
 
     {{form.as_p}}
