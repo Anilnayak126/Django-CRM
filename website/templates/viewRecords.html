@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+ 
+{% if user.is_authenticated %}{% endif %}
+<h1>{{user.first_name}} </h1>
+
+
+
+<div class="card">
+    <div class="card-header">
+     <strong>fullname</strong> : {{user_details.first_name}} {{user_details.last_name}}
+    </div>
+    <div class="card-header">
+    <strong>email</strong> :{{user_details.email}}
+    </div>
+    <div class="card-header">
+     <strong>phone</strong> : {{user_details.phone}}
+    </div>
+    <div class="card-header">
+    <strong>address</strong> : {{user_details.address}}
+    </div>
+    <div class="card-header">
+     <strong>city</strong> : {{user_details.city}}
+    </div>
+    <div class="card-header">
+        <strong>state</strong> : {{user_details.state}}
+    </div>
+    <div class="card-header">
+        <strong>zipcode</strong>  :  {{user_details.zipcode}}
+    </div>
+    
+  </div>
+
+
+
+
+
+{% endblock content %}

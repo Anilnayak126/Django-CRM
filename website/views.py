@@ -1,29 +1,35 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Record
 from .form import SignUpForm
 
 #adding comments
-
 def home(request):
-    #check to see iif loging
     if request.method == "POST":
-        username = request.POST['first_name']
-        password = request.POST['password']
+        username = request.POST.get('username')  # Use .get() to avoid KeyError
+        password = request.POST.get('password')  # Use .get() to avoid KeyError
 
-        # authenticate
-        user =authenticate(request,username =username,password=password)
-        if user is not None:
-            login(request,user)
-            messages.success(request, "You have been logged in !")
-            return redirect('home')
-        
+        if username and password:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, "You have been logged in!")
+                return redirect('home')
+            else:
+                 messages.error(request, "There was an error logging in. Please try again.")
+                 return redirect('/')
+
         else:
-            messages.success(request, "There was an erron Logging In!,Please Try  Again ")
-            return redirect('home')
+            messages.error(request,"user not found !!")
+            return redirect('/')
+            
+          
+    else:
+        return render(request, 'home.html', {})
+      
 
-    else:        
-         return render(request,'home.html',{})
 
 
 
@@ -34,24 +40,83 @@ def logout_user(request):
 
 
 def register_user(request):
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            #Authenticate and login
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username,password=password)
-            login(request, user)
-            messages.success(request,"You have succesfully  registered!")
-            return redirect ('home')
-        
-    else:
-        form = SignUpForm()
-        return render(request,'register.html',{'form':form})
-    
-    return render(request,'register.html',{'form':form})
 
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        second_name = request.POST.get('second_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('repassword')
+        
+        print(username,email,password1,first_name,second_name)
+        if password1 == password2:
+            user = User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=second_name)
+            user.save()
+            messages.success(request,"user id created successfully !!")
+            return redirect('home')
+        else:
+            messages.error(request,"password didnt match")
+
+    
+    return render(request, 'register.html')
+
+
+def Records_view(request):
+    
+
+    if request.user.is_authenticated:
+        users_record = Record.objects.all()
+
+
+    return render(request,'records.html',{"records" : users_record})
+
+
+def manage_Records(request):
+
+    if request.user.is_authenticated: 
+         users_record = Record.objects.all()
+
+
+    return render(request, 'm_records.html',{"records" : users_record})
+
+
+
+def view_person(request,pk):
+     
+     print(pk)
+     
+     user = Record.objects.get(id=pk)
+    
+
+     return render(request, "viewRecords.html",{"user_details":user})
+
+
+
+def add_records(request): 
+
+    if request.method == "POST":
+      firstName = request.POST.get("firstName")
+      lastname = request.POST.get("lastname")
+      email = request.POST.get("email")
+      Phone = request.POST.get("phone")
+      adress = request.POST.get("adress")
+      City = request.POST.get("city")
+      state = request.POST.get("state")
+      zip_code = request.POST.get("zip_code")
+
+      if request.user.is_authenticated:
+          
+          create_record = Record(first_name=firstName,
+                                 last_name=lastname,email=email,
+                                 phone=Phone,address=adress,
+                                 city = City , state= state ,
+                                 zipcode= zip_code)
+          
+          create_record.save()
+          return redirect("records")
+        
+    return render(request, "addRecords.html")
 
        
 

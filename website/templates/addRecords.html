@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Add Records</h2>
+    <form method="POST">
+
+      {% csrf_token %}
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="firstName" class="form-label">First Name</label>
+          <input type="text" name='firstName' class="form-control" id="firstName" placeholder="Enter your first name" required>
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input type="text" name="lastname" class="form-control" id="lastName" placeholder="Enter your last name" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name = "email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="col-md-6">
+          <label for="phone" class="form-label">Phone</label>
+          <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" name="adress" class="form-control" id="address" placeholder="1234 Main St" required>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6">
+          <label for="city" class="form-label">City</label>
+          <input type="text" name="city" class="form-control" id="city" placeholder="Enter your city" required>
+        </div>
+        <div class="col mb-3">
+          <label for="state" class="form-label">State</label>
+          <input type="text" name= "state" placeholder="enter ur state">
+        </div>
+        <div class="col mb-3">
+          <label for="zip_code" class="form-label">Zip Code</label>
+          <input type="text" name="zip_code" class="form-control" id="zip" placeholder="Zip code" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+{% endblock content %}

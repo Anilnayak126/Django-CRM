@@ -4,18 +4,16 @@
 <div class="col-md-6 offset-md-3">
 
     {% if user.is_authenticated %}
-    <h1>Logged in </h1>
-    
+    <h1>Hello, {{user}}</h1>
     
  {% else %} 
     <h1>Log in </h1>
     </br>
     <form method="POST" action={% url "home" %}>
         {% csrf_token %}
-        <form>
             <div class="mb-3">
 
-                <input type="text" class="form-control" name="first_name" placeholder="User name" required>
+                <input type="text" class="form-control" name="username" placeholder="User name" required>
 
             </div>
 
@@ -28,7 +26,6 @@
             <button type="submit" class="btn btn-secondary">Log in</button>
         </form>
 
-    </form>
 </div>
 
 {% endif %}
