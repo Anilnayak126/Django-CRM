@@ -30,9 +30,6 @@ def home(request):
         return render(request, 'home.html', {})
       
 
-
-
-
 def logout_user(request):
     logout(request)
     messages.success(request,'You have been Logged Out!')
@@ -114,9 +111,48 @@ def add_records(request):
                                  zipcode= zip_code)
           
           create_record.save()
+          messages.success(request, "Record updated ..")
           return redirect("records")
         
     return render(request, "addRecords.html")
+
+def delete_records(request,pk):
+
+    if request.user.is_authenticated: 
+         users_record = Record.objects.all()
+         users_record_delete = Record.objects.get(id=pk)
+
+         users_record_delete.delete()
+         messages.success(request,"successfully deleted the record..")
+    
+    return render(request, 'records.html',{"records" : users_record})
+
+def edit_records(request,pk):
+
+    user_record = Record.objects.get(id=pk)
+    if request.method == "POST":
+      firstName = request.POST.get("firstName")
+      lastname = request.POST.get("lastname")
+      email = request.POST.get("email")
+      Phone = request.POST.get("phone")
+      adress = request.POST.get("adress")
+      City = request.POST.get("city")
+      state = request.POST.get("state")
+      zip_code = request.POST.get("zip_code")
+      if request.user.is_authenticated: 
+          update_record = Record(first_name=firstName,
+                                 last_name=lastname,email=email,
+                                 phone=Phone,address=adress,
+                                 city = City , state= state ,
+                                 zipcode= zip_code)
+          update_record.save()
+          messages.success(request,"Record updated !!")
+          return redirect("manage_records")
+ 
+    return render(request, "edit_records.html",{"user_record":user_record})
+
+
+
 
        
 

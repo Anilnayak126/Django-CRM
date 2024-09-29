@@ -3,7 +3,11 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-    <h1 class="primary">Hello {{user.first_name}} Your Record is here</h1>
+
+<blockquote class="blockquote">
+	<p>Hello {{user.first_name}} Your Records are here !!</p>
+  </blockquote>
+
 
 
 {% endif %}

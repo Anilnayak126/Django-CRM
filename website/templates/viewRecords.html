@@ -3,8 +3,13 @@
 
 {% block content %}
  
-{% if user.is_authenticated %}{% endif %}
-<h1>{{user.first_name}} </h1>
+{% if user.is_authenticated %}
+
+<blockquote class="blockquote">
+	<p>Hey {{ user.first_name }} you can manage your data here !!</p>
+  </blockquote>
+{% endif %}
+
 
 
 
@@ -30,11 +35,12 @@
     <div class="card-header">
         <strong>zipcode</strong>  :  {{user_details.zipcode}}
     </div>
-    
+    <div class="card-body">
+
+        <a class="btn btn-danger" href="{% url "delete_records" user_details.id %}">delete Records</a>
+        <a class="btn btn-primary" href="{% url "update_records" user_details.id %}">Edit Records</a>
+    </div>
   </div>
-
-
-
 
 
 {% endblock content %}
