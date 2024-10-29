@@ -1,33 +1,88 @@
 {% extends "base.html" %}
 
+
 {% block content %}
-<div class="col-md-6 offset-md-3">
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6 p-4 bg-light rounded shadow-lg text-center" style="max-width: 500px;">
+        {% if user.is_authenticated %}
+            <h1 class="mb-3 display-6">Welcome, {{ user.username }}!</h1>
+            <p class="text-muted">
+                You are logged into our CRM system, designed to help you manage client interactions, sales, and other essential business operations with ease.
+            </p>
+            <p class="text-muted">Developed by Anil Kumar Nayak</p>
+        {% else %}
+            <h1 class="mb-4 display-6">Welcome to the CRM System</h1>
+            <p class="text-muted">
+                Our Customer Relationship Management (CRM) application helps you streamline interactions with clients, optimize workflows, and drive growth.
+                <br><strong>Developed by Anil Kumar Nayak</strong>
+            </p>
+            <hr>
 
-    {% if user.is_authenticated %}
-    <h1>Hello, {{user}}</h1>
-    
- {% else %} 
-    <h1>Log in </h1>
-    </br>
-    <form method="POST" action={% url "home" %}>
-        {% csrf_token %}
-            <div class="mb-3">
+            <h3 class="mb-3">Log in</h3>
+            <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username" placeholder="Username" required>
+                </div>
 
-                <input type="text" class="form-control" name="username" placeholder="User name" required>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                </div>
 
-            </div>
-
-            </br>
-            <div class="mb-3">
-
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
-            </div>
-
-            <button type="submit" class="btn btn-secondary">Log in</button>
-        </form>
-
+                <button type="submit" class="btn btn-primary w-100">Log in</button>
+            </form>
+        {% endif %}
+    </div>
 </div>
 
-{% endif %}
+<style>
+    
+    .container {
+        min-height: 100vh;
+        margin-top: -100px;
+    }
 
+    
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+  
+    h1.display-6, h3 {
+        font-size: calc(1.5rem + 1vw);
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+  
+    body {
+        background: linear-gradient(to right, #e3f2fd, #ffffff);
+    }
+
+    
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        h1.display-6, h3 {
+            font-size: 1.4rem;
+        }
+
+        p {
+            font-size: 0.95rem;
+        }
+    }
+</style>
 {% endblock %}

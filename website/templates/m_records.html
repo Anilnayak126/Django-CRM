@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
 <blockquote class="blockquote text-center">
-    <p>Hey {{ user.first_name }} you can manage your data here !!</p>
+    <p>Hey {{ user.first_name }}, you can manage your data here!</p>
 </blockquote>
 
 <div class="container mt-4">
@@ -28,7 +28,7 @@
                 {% if records %}
                     {% for record in records %}
                         <tr>
-                            <td><a href="{% url "view_person" record.id %}">{{ record.id }}</a></td>
+                            <td><a href="{% url 'view_person' record.id %}">{{ record.id }}</a></td>
                             <td>{{ record.first_name }} {{ record.last_name }}</td>
                             <td>{{ record.email }}</td>
                             <td>{{ record.phone }}</td>
@@ -38,19 +38,50 @@
                             <td>{{ record.zipcode }}</td>
                             <td>{{ record.created_at }}</td>
                             <td>
-                                <a class="btn btn-primary btn-sm" href="{% url "view_person" record.id %}">View</a>
+                                <a class="btn btn-primary btn-sm" href="{% url 'view_person' record.id %}">View</a>
                             </td>
                         </tr>
                     {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="10" class="text-center">No records found.</td>
+                    </tr>
                 {% endif %}
             </tbody>
         </table>
     </div>
 
     <div class="text-center mt-3">
-        <a class="btn btn-primary" href="{% url "add_records" %}">Add Records</a>
+        <a class="btn btn-primary" href="{% url 'add_records' %}">Add Records</a>
     </div>
 </div>
 {% endif %}
 
 {% endblock %}
+
+<style>
+    
+    .table-responsive {
+        margin-top: 20px;
+        overflow-x: auto; 
+    }
+
+    
+    @media (max-width: 768px) {
+        .table th,
+        .table td {
+            padding: 0.75rem; 
+            font-size: 0.9rem; 
+        }
+    }
+
+   
+    table {
+        width: 100%; 
+    }
+
+    th, td {
+        text-align: left; 
+        vertical-align: middle;/
+    }
+</style>

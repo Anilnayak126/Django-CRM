@@ -127,30 +127,25 @@ def delete_records(request,pk):
     
     return render(request, 'records.html',{"records" : users_record})
 
-def edit_records(request,pk):
-
+def edit_records(request, pk):
     user_record = Record.objects.get(id=pk)
-    if request.method == "POST":
-      firstName = request.POST.get("firstName")
-      lastname = request.POST.get("lastname")
-      email = request.POST.get("email")
-      Phone = request.POST.get("phone")
-      adress = request.POST.get("adress")
-      City = request.POST.get("city")
-      state = request.POST.get("state")
-      zip_code = request.POST.get("zip_code")
-      if request.user.is_authenticated: 
-          update_record = Record(first_name=firstName,
-                                 last_name=lastname,email=email,
-                                 phone=Phone,address=adress,
-                                 city = City , state= state ,
-                                 zipcode= zip_code)
-          update_record.save()
-          messages.success(request,"Record updated !!")
-          return redirect("manage_records")
- 
-    return render(request, "edit_records.html",{"user_record":user_record})
 
+    if request.method == "POST":
+        user_record.first_name = request.POST.get("firstName")
+        user_record.last_name = request.POST.get("lastname")
+        user_record.email = request.POST.get("email")
+        user_record.phone = request.POST.get("phone")
+        user_record.address = request.POST.get("adress")
+        user_record.city = request.POST.get("city")
+        user_record.state = request.POST.get("state")
+        user_record.zipcode = request.POST.get("zip_code")
+
+        if request.user.is_authenticated:
+            user_record.save() 
+            messages.success(request, "Record updated!")
+            return redirect("manage_records")
+    
+    return render(request, "edit_records.html", {"user_record": user_record})
 
 
 
